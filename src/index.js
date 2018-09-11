@@ -21,6 +21,7 @@ const ROS_INTERFACES = {
   TransformListener: require('./ros/TransformListener'),
   StaticTransformBroadcaster: require('./ros/StaticTransformBroadcaster'),
   TransformBroadcaster: require('./ros/TransformBroadcaster'),
+  BufferClient: require('./ros/BufferClient')
 };
 
 let configuration = null;
@@ -64,6 +65,7 @@ const tf2_nodejs = {
       configuration.ros = options.ros;
     }
   },
+
   /**
    * reset the configuration for tf2_nodejs. Mostly useful for tests
    * @private

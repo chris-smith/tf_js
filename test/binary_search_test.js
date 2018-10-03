@@ -68,9 +68,16 @@ describe('binarySearch', () => {
       {secs: 1000, nsecs: 32}
     ];
 
+    function timeDistance(a, b) {
+      const timeA = TimeUtils.toSec(a);
+      const timeB = TimeUtils.toSec(b);
+
+      return timeA - timeB;
+    }
+
     expect(binarySearchIndex(times, {secs: 0, nsecs: 0}, TimeUtils.distance)).to.equal(0);
 
-    expect(binarySearchIndex(times, {secs: 12, nsecs: 0}, TimeUtils.distance)).to.equal(2);
+    expect(binarySearchIndex(times, {secs: 12, nsecs: 0}, timeDistance)).to.equal(2);
 
     expect(binarySearchIndex(times, {secs: 12, nsecs: 14}, TimeUtils.distance)).to.equal(2);
 

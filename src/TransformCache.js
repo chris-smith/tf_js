@@ -19,7 +19,7 @@ const { Vector3, Quaternion } = require('three');
 
 const timeUtils = require('./TimeUtils.js');
 
-const { binarySearchIndex, binarySearchBounds, lowerBound } = require('./BinarySearch.js');
+const { binarySearchBounds, lowerBound } = require('./BinarySearch.js');
 const Frame = require('./geometry/Frame.js');
 const Transform = require('./geometry/Transform.js');
 
@@ -66,7 +66,7 @@ class TransformCache {
 
     if (len !== 0) {
       // if this entry is too old, don't add it
-      if (timeUtils.distance(this.getLatestTimestamp(), newStamp) > this._maxAgeS) {
+      if (timeUtils.expired(this.getLatestTimestamp(), newStamp, this._maxAgeS)) {
         return false;
       }
 
@@ -284,7 +284,7 @@ class TransformCache {
     if (len > 0) {
       const stamp = this.getLatestTimestamp();
       let i = 0;
-      while (i < len && timeUtils.distance(stamp, this._cache[i].header.stamp) > this._maxAgeS) {
+      while (i < len && timeUtils.expired(stamp, this._cache[i].header.stamp, this._maxAgeS)) {
         ++i;
       }
 

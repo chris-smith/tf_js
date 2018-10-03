@@ -34,16 +34,25 @@ function toSec(time) {
   return time.secs + time.nsecs * 1e-9;
 }
 
+// we don't need the real distance, we just need a proxy for greater, less
 function distance(timeA, timeB) {
-  const numA = toSec(timeA);
-  const numB =  toSec(timeB);
+  const secs = timeA.secs - timeB.secs;
 
-  const diff = numA - numB;
-  return diff;
+  if (secs === 0) {
+    return Math.sign(timeA.nsecs - timeB.nsecs);
+  }
+  // else
+  return Math.sign(secs);
 }
 
 function equal(a, b) {
   return a.secs === b.secs && a.nsecs === b.nsecs;
+}
+
+function expired(timeA, timeB, maxAgeS) {
+  const expireTime = { secs: timeB.secs + maxAgeS, nsecs: timeB.nsecs };
+
+  return distance(timeA, expireTime) > 0;
 }
 
 module.exports = {
@@ -51,5 +60,6 @@ module.exports = {
   toSec,
   toNumber,
   distance,
-  equal
+  equal,
+  expired
 };
